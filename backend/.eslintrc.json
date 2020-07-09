@@ -1,0 +1,19 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-jest",
+    "eslint-plugin-node",
+    "eslint-plugin-prettier",
+    "eslint-plugin-import"
+  ],
+  "rules": {}
+}
