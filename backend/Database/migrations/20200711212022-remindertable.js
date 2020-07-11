@@ -19,6 +19,8 @@ exports.up = function (db) {
     id: { type: 'bigint', primaryKey: true, autoIncrement: true },
     title: { type: 'string' },
     details: { type: 'text' },
+    daytobe: { type: 'text' },
+    frequencey: { type: 'bigint' },
   })
 }
 
