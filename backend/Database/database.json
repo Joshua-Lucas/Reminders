@@ -1,0 +1,8 @@
+{
+  "dev": {
+    "driver": "pg",
+    "host": "localhost",
+    "database": "reminders",
+    "port": "5432"
+  }
+}
