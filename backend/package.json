@@ -8,8 +8,8 @@
     "dev": "nodemon",
     "migrate:create": "db-migrate create --migrations-dir=./Database/migrations --config=./Database/database.json",
     "migrate:up": "db-migrate up --migrations-dir=./Database/migrations --config=./Database/database.json",
-    "migrate:drop": "db-migrate down --migrations-dir=./Database/migrations --config=./Database/database.json",
-    "migrate:refresh": "npm run migrate:drop && npm run migrate:up"
+    "migrate:down": "db-migrate down --migrations-dir=./Database/migrations --config=./Database/database.json",
+    "migrate:refresh": "npm run migrate:down && npm run migrate:up"
   },
   "author": "JoshuaLucas",
   "license": "ISC",
