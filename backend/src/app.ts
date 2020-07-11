@@ -1,10 +1,11 @@
-require('dotenv').config()
+import dotenv from 'dotenv'
 import express from 'express'
 import logger from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
 
+dotenv.config()
 const app = express()
 
 app.disable('x-powered-by')
