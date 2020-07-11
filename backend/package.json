@@ -9,7 +9,8 @@
     "migrate:create": "db-migrate create --migrations-dir=./Database/migrations --config=./Database/database.json",
     "migrate:up": "db-migrate up --migrations-dir=./Database/migrations --config=./Database/database.json",
     "migrate:down": "db-migrate down --migrations-dir=./Database/migrations --config=./Database/database.json",
-    "migrate:refresh": "npm run migrate:down && npm run migrate:up"
+    "migrate:reset": "db-migrate reset --migrations-dir=./Database/migrations --config=./Database/database.json",
+    "migrate:refresh": "npm run migrate:reset && npm run migrate:up"
   },
   "author": "JoshuaLucas",
   "license": "ISC",
