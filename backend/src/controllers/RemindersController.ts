@@ -1,6 +1,7 @@
 import {
-  getReminder,
+  getReminders,
   createReminder,
+  showReminder,
   updateReminder,
   deleteReminder,
   IReminder,
@@ -16,7 +17,7 @@ export interface ICreateReminder extends INewReminder {}
 // Controller Methods
 export const index = async (req, res) => {
   try {
-    const result = await getReminder()
+    const result = await getReminders()
     res.status(HttpStatus.OK).json(result.rows)
   } catch (error) {
     logError(error)
@@ -34,6 +35,18 @@ export const create = async (req, res) => {
     res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   }
 }
+
+export const show = async (req, res) => {
+  const id = parseInt(req.params.id)
+  try {
+    const result = await showReminder(id)
+    res.status(HttpStatus.OK).json(result.rows[0])
+  } catch (error) {
+    logError(error)
+    res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  }
+}
+
 export const update = async (req, res) => {
   const body = req.body as IReminder
 
@@ -62,4 +75,5 @@ export const RemindersController = {
   create: create,
   update: update,
   destroy: destroy,
+  show: show,
 }
