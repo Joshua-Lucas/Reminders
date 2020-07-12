@@ -1,11 +1,5 @@
-import { Pool } from 'pg'
+import { pool as database } from '../utils/dbPool'
 
-const pool = new Pool({
-  user: '',
-  host: '127.0.0.1',
-  database: 'reminders',
-  port: 5432,
-})
 // Interfaces
 export interface IReminder {
   id: number
@@ -26,7 +20,7 @@ export interface INewReminder {
 
 // Methods
 export const getReminders = () =>
-  pool.query(
+  database.query(
     `
         SELECT *
         FROM reminders
@@ -34,7 +28,7 @@ export const getReminders = () =>
   )
 
 export const createReminder = (reminder: INewReminder) =>
-  pool.query(
+  database.query(
     `
         INSERT INTO reminders (title, details, daytobe, frequencey, user_id)
         VALUES ($1, $2, $3, $4, $5)
@@ -50,7 +44,7 @@ export const createReminder = (reminder: INewReminder) =>
   )
 
 export const showReminder = (id: number) =>
-  pool.query(
+  database.query(
     ` 
         SELECT *
         FROM reminders
@@ -61,7 +55,7 @@ export const showReminder = (id: number) =>
   )
 
 export const updateReminder = (reminder: IReminder) =>
-  pool.query(
+  database.query(
     `
         UPDATE reminders
         SET title = ($1) , details = ($2) , daytobe = ($3), frequencey = ($4)
@@ -78,7 +72,7 @@ export const updateReminder = (reminder: IReminder) =>
   )
 
 export const deleteReminder = (id: number) =>
-  pool.query(
+  database.query(
     `
         DELETE FROM reminders
         WHERE id = $1
