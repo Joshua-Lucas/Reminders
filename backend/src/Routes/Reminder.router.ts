@@ -14,10 +14,7 @@ router
   .get((req, res) => {
     res.send('you can see one reminder')
   })
-  .put((req, res) => {
-    console.log('you updated this reminder')
-    res.end()
-  })
+  .put(RemindersController.update)
   .delete(RemindersController.destroy)
 
 export default router
