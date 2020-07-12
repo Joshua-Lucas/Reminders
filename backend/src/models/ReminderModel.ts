@@ -46,6 +46,23 @@ export const createReminder = (reminder: INewReminder) =>
     ]
   )
 
+export const updateReminder = (reminder: IReminder) =>
+  pool.query(
+    `
+        UPDATE reminders
+        SET title = ($1) , details = ($2) , daytobe = ($3), frequencey = ($4)
+        WHERE id = ($5)
+        RETURNING *
+        `,
+    [
+      reminder.title,
+      reminder.details,
+      reminder.daytobe,
+      reminder.frequencey,
+      reminder.id,
+    ]
+  )
+
 export const deleteReminder = (id: number) =>
   pool.query(
     `DELETE FROM reminders
