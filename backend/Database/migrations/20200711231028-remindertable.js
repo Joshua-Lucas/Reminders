@@ -15,39 +15,25 @@ exports.setup = function (options, seedLink) {
 }
 
 exports.up = function (db) {
-  return (
-    // db.addForeignKey(
-    //   'reminders',
-    //   'users-table',
-    //   'user_id',
-    //   {
-    //     user_id: 'id',
-    //   },
-    //   {
-    //     onDelete: 'CASCADE',
-    //     onUpdate: 'RESTRICT',
-    //   }
-    // ),
-    db.createTable('reminders', {
-      id: { type: 'bigint', primaryKey: true, autoIncrement: true },
-      title: { type: 'string' },
-      details: { type: 'text' },
-      daytobe: { type: 'text' },
-      frequencey: { type: 'bigint' },
-      user_id: {
-        type: 'int',
-        notNull: true,
-        foreignKey: {
-          name: 'id',
-          table: 'users',
-          rules: {
-            onDelete: 'CASCADE',
-          },
-          mapping: 'id',
+  return db.createTable('reminders', {
+    id: { type: 'bigint', primaryKey: true, autoIncrement: true },
+    title: { type: 'string' },
+    details: { type: 'text' },
+    daytobe: { type: 'text' },
+    frequencey: { type: 'bigint' },
+    user_id: {
+      type: 'int',
+      notNull: true,
+      foreignKey: {
+        name: 'id',
+        table: 'users',
+        rules: {
+          onDelete: 'CASCADE',
         },
+        mapping: 'id',
       },
-    })
-  )
+    },
+  })
 }
 
 exports.down = function (db) {
