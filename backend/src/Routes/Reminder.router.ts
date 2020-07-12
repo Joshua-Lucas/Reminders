@@ -1,20 +1,13 @@
 import { Router } from 'express'
+import { RemindersController } from '../controllers/RemindersController'
 
 const router = Router()
 
 router
   .route('/')
-  .get((req, res) => {
-    res.send('you can see all reminders')
-  })
-  .post((req, res) => {
-    console.log('you posted to reminders table')
-    res.end()
-  })
-  .delete((req, res) => {
-    console.log('you deleted your a reminder')
-    res.end()
-  })
+  .get(RemindersController.index)
+  .post(RemindersController.create)
+  .delete(RemindersController.destroy)
 
 router
   .route('/:id')
@@ -25,9 +18,6 @@ router
     console.log('you updated this reminder')
     res.end()
   })
-  .delete((req, res) => {
-    console.log('you deleted your a reminder')
-    res.end()
-  })
+  .delete(RemindersController.destroy)
 
 export default router
