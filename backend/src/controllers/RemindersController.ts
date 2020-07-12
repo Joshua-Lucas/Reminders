@@ -1,6 +1,7 @@
 import {
   getReminder,
   createReminder,
+  updateReminder,
   deleteReminder,
   IReminder,
   INewReminder,
@@ -8,9 +9,11 @@ import {
 import { logError } from '../utils/logError'
 import HttpStatus from 'http-status-codes'
 
+// Types & Interfaces
 export type GetReminderRes = IReminder[]
 export interface ICreateReminder extends INewReminder {}
 
+// Controller Methods
 export const index = async (req, res) => {
   try {
     const result = await getReminder()
@@ -31,6 +34,17 @@ export const create = async (req, res) => {
     res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   }
 }
+export const update = async (req, res) => {
+  const body = req.body as IReminder
+
+  try {
+    const result = await updateReminder(body)
+    res.status(HttpStatus.OK).json(result.rows[0])
+  } catch (error) {
+    logError(error)
+    res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  }
+}
 
 export const destroy = async (req, res) => {
   const id = req.body.id
@@ -46,5 +60,6 @@ export const destroy = async (req, res) => {
 export const RemindersController = {
   index: index,
   create: create,
+  update: update,
   destroy: destroy,
 }
