@@ -4,8 +4,8 @@ import logger from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
-import reminderRouter from './Routes/Reminder.router'
-import userRouter from './Routes/User.router'
+import reminderRouter from './routes/Reminder.router'
+import userRouter from './routes/User.router'
 
 dotenv.config()
 const app = express()
@@ -18,6 +18,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+// routes
 app.use('/api/reminders', reminderRouter)
 app.use('/api/user', userRouter)
 
