@@ -25,18 +25,21 @@ export interface INewReminder {
 }
 
 // Methods
-export const getReminder = () =>
+export const getReminders = () =>
   pool.query(
-    `SELECT *
-    FROM reminders`
+    `
+        SELECT *
+        FROM reminders
+    `
   )
 
 export const createReminder = (reminder: INewReminder) =>
   pool.query(
-    `INSERT INTO reminders (title, details, daytobe, frequencey, user_id)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING *
-      `,
+    `
+        INSERT INTO reminders (title, details, daytobe, frequencey, user_id)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *
+    `,
     [
       reminder.title,
       reminder.details,
@@ -46,6 +49,17 @@ export const createReminder = (reminder: INewReminder) =>
     ]
   )
 
+export const showReminder = (id: number) =>
+  pool.query(
+    ` 
+        SELECT *
+        FROM reminders
+        WHERE id = ($1)
+        
+    `,
+    [id]
+  )
+
 export const updateReminder = (reminder: IReminder) =>
   pool.query(
     `
@@ -53,7 +67,7 @@ export const updateReminder = (reminder: IReminder) =>
         SET title = ($1) , details = ($2) , daytobe = ($3), frequencey = ($4)
         WHERE id = ($5)
         RETURNING *
-        `,
+    `,
     [
       reminder.title,
       reminder.details,
@@ -65,7 +79,9 @@ export const updateReminder = (reminder: IReminder) =>
 
 export const deleteReminder = (id: number) =>
   pool.query(
-    `DELETE FROM reminders
-      WHERE id = $1`,
+    `
+        DELETE FROM reminders
+        WHERE id = $1
+    `,
     [id]
   )
