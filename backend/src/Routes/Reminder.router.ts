@@ -11,9 +11,7 @@ router
 
 router
   .route('/:id')
-  .get((req, res) => {
-    res.send('you can see one reminder')
-  })
+  .get(RemindersController.show)
   .put(RemindersController.update)
   .delete(RemindersController.destroy)
 
