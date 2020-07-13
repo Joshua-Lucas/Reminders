@@ -1,4 +1,5 @@
 import { pool as database } from '../utils/dbPool'
+import bcrypt from 'bcrypt'
 
 // Types and Interfaces
 export interface IUser {
@@ -8,6 +9,10 @@ export interface IUser {
   password: string
 }
 
+// export interface IHASH {
+//   password: string
+// }
+
 export interface INewUser {
   name: string
   email: string
@@ -15,3 +20,17 @@ export interface INewUser {
 }
 
 // Methods
+
+export const createNewUser = (user: INewUser) =>
+  database.query(
+    `
+  INSERT INTO users (name, email, password)
+  VALUES ($1, $2, $3)
+  ON CONFLICT (email)
+  WHERE email = ($2)
+  DO NOTHING
+  RETURNING id, name, email
+  
+  `,
+    [user.name, user.email, user.password]
+  )
