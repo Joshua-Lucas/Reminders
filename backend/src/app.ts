@@ -33,3 +33,7 @@ export const startServer = () => {
     console.error(e)
   }
 }
+
+app.use((req, res, next) => {
+  next(createError(404))
+})
