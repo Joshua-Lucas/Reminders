@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { UsersController } from '../controllers/UsersController'
 
 const router = Router()
 
@@ -7,10 +8,7 @@ router
   .get((req, res) => {
     res.send('you can see your account')
   })
-  .post((req, res) => {
-    console.log('you created a new user')
-    res.end()
-  })
+  .post(UsersController.create)
   .put((req, res) => {
     console.log('you updated your information')
     res.end()
