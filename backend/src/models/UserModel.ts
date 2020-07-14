@@ -20,8 +20,8 @@ export interface INewUser {
 }
 
 // Methods
-
-export const createNewUser = (user: INewUser) =>
+export const hashPass = (pass: string) => bcrypt.hash(pass, 10, null)
+export const createNewUser = (user: INewUser, hash: string) =>
   database.query(
     `
   INSERT INTO users (name, email, password)
@@ -32,5 +32,5 @@ export const createNewUser = (user: INewUser) =>
   RETURNING id, name, email
   
   `,
-    [user.name, user.email, user.password]
+    [user.name, user.email, hash]
   )
