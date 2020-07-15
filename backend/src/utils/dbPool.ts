@@ -2,7 +2,7 @@ import { Pool } from 'pg'
 
 export const pool = new Pool({
   user: '',
-  host: '127.0.0.1',
-  database: 'reminders',
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
   port: 5432,
 })
