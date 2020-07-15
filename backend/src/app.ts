@@ -1,4 +1,4 @@
-import dotenv from 'dotenv'
+import 'dotenv/config'
 import express from 'express'
 import logger from 'morgan'
 import cors from 'cors'
@@ -7,7 +7,6 @@ import createError from 'http-errors'
 import reminderRouter from './routes/Reminder.router'
 import userRouter from './routes/User.router'
 
-dotenv.config()
 const app = express()
 
 app.disable('x-powered-by')
