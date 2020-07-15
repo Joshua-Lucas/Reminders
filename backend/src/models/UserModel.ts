@@ -19,8 +19,12 @@ export interface INewUser {
   password: string
 }
 
+// Utils
+const salt = parseInt(process.env.SALT_ROUNDS)
+export const hashPass = (pass: string) => bcrypt.hash(pass, salt, null)
+
 // Methods
-export const hashPass = (pass: string) => bcrypt.hash(pass, 10, null)
+// export const loginUser = (user: IUser) => {}
 export const createNewUser = (user: INewUser, hash: string) =>
   database.query(
     `
