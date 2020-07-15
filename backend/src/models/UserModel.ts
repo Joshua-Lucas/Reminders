@@ -22,9 +22,20 @@ export interface INewUser {
 // Utils
 const salt = parseInt(process.env.SALT_ROUNDS)
 export const hashPass = (pass: string) => bcrypt.hash(pass, salt, null)
+export const compareCradentials = (pass: string, hash: string): boolean =>
+  bcrypt.compare(pass, hash).then((result) => result)
 
 // Methods
-// export const loginUser = (user: IUser) => {}
+export const loginUser = (user: IUser) =>
+  database.query(
+    `
+      SELECT * 
+      FROM users
+      WHERE email = ($1)
+    `,
+    [user.email]
+  )
+
 export const createNewUser = (user: INewUser, hash: string) =>
   database.query(
     `
