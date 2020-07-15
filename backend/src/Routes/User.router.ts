@@ -5,9 +5,7 @@ const router = Router()
 
 router
   .route('/')
-  .get((req, res) => {
-    res.send('you can see your account')
-  })
+  .get(UsersController.index)
   .post(UsersController.create)
   .put((req, res) => {
     console.log('you updated your information')
