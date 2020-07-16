@@ -9,6 +9,7 @@ import {
 } from '../models/ReminderModel'
 import { logError } from '../utils/logError'
 import HttpStatus from 'http-status-codes'
+import { StorageErrors } from '../utils/StorageErrors'
 
 // Types & Interfaces
 export type GetReminderRes = IReminder[]
@@ -40,7 +41,11 @@ export const show = async (req, res) => {
   const id = parseInt(req.params.id)
   try {
     const result = await showReminder(id)
-    res.status(HttpStatus.OK).json(result.rows[0])
+    if (result.rowCount === 0) {
+      res.status(HttpStatus.NOT_FOUND).send(StorageErrors.NO_REMINDER)
+    } else {
+      res.status(HttpStatus.OK).json(result.rows[0])
+    }
   } catch (error) {
     logError(error)
     res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
