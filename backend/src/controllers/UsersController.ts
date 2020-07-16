@@ -5,17 +5,19 @@ import {
   createNewUser,
   getUser,
   updateUserInfo,
+  deleteUser,
   INewUser,
   hashPass,
   IUser,
   compareCradentials,
   IUserData,
 } from '../models/UserModel'
+import { send } from 'process'
 
 // Types and Interfaces
 export interface ICreateNewUser extends INewUser {}
 
-//* CREATE AUTH VALIDATION MIDDLEWARE AND REFACTOR  */
+//* LOGIN METHOD  */
 export const index = async (req, res) => {
   const body = req.body as IUser
   try {
@@ -45,6 +47,7 @@ export const index = async (req, res) => {
   }
 }
 
+// * REGISTER METHOD*/
 export const create = async (req, res) => {
   const body = req.body as ICreateNewUser
 
@@ -81,17 +84,21 @@ export const update = async (req, res) => {
   }
 }
 
-// export const destory = (req, res) => {
-//   const id: number = req.body.id
+export const destroy = async (req, res) => {
+  const id: number = req.body.id
 
-//   try{
-
-//   }
-// }
+  try {
+    const results = await deleteUser(id)
+    res.status(HttpStatus.OK).send('User Deleted')
+  } catch (error) {
+    logError(error)
+    res.sendStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  }
+}
 
 export const UsersController = {
   index: index,
   create: create,
   update: update,
-  // destroy: destroy,
+  destroy: destroy,
 }
