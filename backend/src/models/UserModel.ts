@@ -64,11 +64,11 @@ export const updateUserInfo = (user: IUserData) =>
     [user.name, user.email, user.id]
   )
 
-// export const deleteUser = (id: number) =>
-//   database.query(
-//     `
-//         DELETE FROM user
-//         WHERE id = $1
-//     `,
-//     [id]
-//   )
+export const deleteUser = (id: number) =>
+  database.query(
+    `
+        DELETE FROM users
+        WHERE id = $1
+    `,
+    [id]
+  )
