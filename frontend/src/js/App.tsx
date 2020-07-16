@@ -1,23 +1,18 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "../css/App.css";
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import '../css/App.css'
+import Reminders from './components/Reminders'
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/users">
-          <Users />
-        </Route>
         <Route path="/">
-          <Home />
+          <Reminders />
         </Route>
       </Switch>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
