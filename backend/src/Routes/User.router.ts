@@ -7,10 +7,7 @@ router
   .route('/')
   .get(UsersController.index)
   .post(UsersController.create)
-  .put((req, res) => {
-    console.log('you updated your information')
-    res.end()
-  })
+  .put(UsersController.update)
   .delete((req, res) => {
     console.log('you deleted your account')
     res.end()
