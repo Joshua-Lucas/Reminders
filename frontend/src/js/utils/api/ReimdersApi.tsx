@@ -11,5 +11,10 @@ export const getReimders = async (): Promise<GetReminders> => {
     throw Error('Could not fetch any reminders')
   }
   const response = (await result.json()) as GetReminders
+  console.log(response)
   return response
+}
+
+export const api = {
+  get: getReimders,
 }
