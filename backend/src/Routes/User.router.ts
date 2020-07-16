@@ -8,9 +8,6 @@ router
   .get(UsersController.index)
   .post(UsersController.create)
   .put(UsersController.update)
-  .delete((req, res) => {
-    console.log('you deleted your account')
-    res.end()
-  })
+  .delete(UsersController.destroy)
 
 export default router
