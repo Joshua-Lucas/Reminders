@@ -9,9 +9,12 @@ export interface IUser {
   password: string
 }
 
-// export interface IHASH {
-//   password: string
-// }
+// this is the data passed to client
+export interface IUserData {
+  id: number
+  name: string
+  email: string
+}
 
 export interface INewUser {
   name: string
@@ -26,7 +29,7 @@ export const compareCradentials = (pass: string, hash: string): boolean =>
   bcrypt.compare(pass, hash).then((result) => result)
 
 // Methods
-export const loginUser = (user: IUser) =>
+export const getUser = (user: IUser) =>
   database.query(
     `
       SELECT * 
@@ -49,3 +52,23 @@ export const createNewUser = (user: INewUser, hash: string) =>
   `,
     [user.name, user.email, hash]
   )
+
+export const updateUserInfo = (user: IUserData) =>
+  database.query(
+    `
+      UPDATE users
+      SET name = ($1) , email = ($2)
+      WHERE id = ($3)
+      RETURNING *
+      `,
+    [user.name, user.email, user.id]
+  )
+
+// export const deleteUser = (id: number) =>
+//   database.query(
+//     `
+//         DELETE FROM user
+//         WHERE id = $1
+//     `,
+//     [id]
+//   )
