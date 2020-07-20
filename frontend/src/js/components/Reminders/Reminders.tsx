@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, FormEventHandler } from 'react'
 import ReminderContainer from './RemindersContiner'
 import { remindersApi } from '../../utils/api/ReimdersApi'
 import { GetReminders, IReminder } from '../../utils/interfaces'
@@ -6,7 +6,7 @@ import Dropdown from '../../utils/formComponents/Dropdown'
 
 const Reminders: React.FC = ({}) => {
   const [state, setState] = useState<GetReminders>([])
-
+  const [filterData, setFilterData] = useState('all')
   useEffect(() => {
     const loadReminders = async () => {
       const result = await remindersApi.get()
@@ -16,16 +16,25 @@ const Reminders: React.FC = ({}) => {
     loadReminders()
   }, [])
 
-  const filterdReminders = () => {
-    const all = state.map((reminders) => (
-      <ReminderContainer
-        key={reminders.id}
-        title={reminders.title}
-        details={reminders.details}
-        frequency={reminders.frequencey}
-      />
-    ))
-    return all
+  const filterdReminders = (filter: string) => {
+    if (filter === 'All') {
+      const all = state.map((reminders) => (
+        <ReminderContainer
+          key={reminders.id}
+          title={reminders.title}
+          details={reminders.details}
+          frequency={reminders.frequencey}
+        />
+      ))
+      return all
+    } else {
+      return <p>no reminders</p>
+    }
+  }
+
+  const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
+    e.preventDefault()
+    setFilterData(e.target.value)
   }
 
   return (
@@ -44,9 +53,11 @@ const Reminders: React.FC = ({}) => {
             'Saturday',
             'Sunday',
           ]}
+          value={filterData}
+          event={handleChange}
         />
       </form>
-      {filterdReminders()}
+      {filterdReminders(filterData)}
     </div>
   )
 }
