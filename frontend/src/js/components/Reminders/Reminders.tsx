@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import ReminderContainer from './Reminders/RemindersContiner'
-import { remindersApi } from '../utils/api/ReimdersApi'
-import { GetReminders, IReminder } from '../utils/interfaces'
+import ReminderContainer from './RemindersContiner'
+import { remindersApi } from '../../utils/api/ReimdersApi'
+import { GetReminders, IReminder } from '../../utils/interfaces'
+import Dropdown from '../../utils/formComponents/Dropdown'
 
 const Reminders: React.FC = ({}) => {
   const [state, setState] = useState<GetReminders>([])
@@ -30,6 +31,21 @@ const Reminders: React.FC = ({}) => {
   return (
     <div>
       <h1>Your Reminders</h1>
+      <form>
+        <Dropdown
+          name="filter"
+          options={[
+            'All',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+          ]}
+        />
+      </form>
       {filterdReminders()}
     </div>
   )
