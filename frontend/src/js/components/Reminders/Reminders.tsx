@@ -6,7 +6,7 @@ import Dropdown from '../../utils/formComponents/Dropdown'
 
 const Reminders: React.FC = ({}) => {
   const [state, setState] = useState<GetReminders>([])
-  const [filterData, setFilterData] = useState('all')
+  const [filterData, setFilterData] = useState('All')
   useEffect(() => {
     const loadReminders = async () => {
       const result = await remindersApi.get()
