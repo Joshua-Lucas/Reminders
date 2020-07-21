@@ -25,7 +25,7 @@ const Dropdown: React.FC<IDropdownProps> = ({
     <React.Fragment>
       <label htmlFor={name}>
         {labelName} {/* This is option */}
-        <select name={name} id={name} onChange={event}>
+        <select name={name} id={name} onChange={event} onBlur={event}>
           {selections}
         </select>
       </label>
