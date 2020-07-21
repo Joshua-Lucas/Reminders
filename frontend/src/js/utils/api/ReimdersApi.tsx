@@ -1,5 +1,5 @@
 import HttpStatus from 'http-status-codes'
-import { GetReminders } from '../interfaces'
+import { GetReminders, ICreateReminder, INewReminder } from '../interfaces'
 // utils
 const url = 'http://localhost:8080/api/reminders'
 
@@ -12,6 +12,22 @@ export const getReimders = async (): Promise<GetReminders> => {
   return result
 }
 
+export const postReminder = async (
+  newReminder: INewReminder
+): Promise<ICreateReminder> => {
+  const result = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newReminder),
+  })
+    .then((res) => res.json())
+    .catch(console.error)
+  return result
+}
+
 export const remindersApi = {
   get: getReimders,
+  post: postReminder,
 }
