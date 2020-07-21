@@ -16,8 +16,8 @@ const Reminders: React.FC = ({}) => {
     loadReminders()
   }, [])
 
-  const filterdReminders = (filter: string) => {
-    if (filter === 'All') {
+  const filterReminders = (filter: string) => {
+    if (filter === 'All' && state.length > 0) {
       const all = state.map((reminders) => (
         <ReminderContainer
           key={reminders.id}
@@ -28,7 +28,19 @@ const Reminders: React.FC = ({}) => {
       ))
       return all
     } else {
-      return <p>no reminders</p>
+      var filteredByDay = state.filter(
+        (reminder) => reminder.daytobe === filter
+      )
+      var filtered = filteredByDay.map((reminders) => (
+        <ReminderContainer
+          key={reminders.id}
+          title={reminders.title}
+          details={reminders.details}
+          frequency={reminders.frequencey}
+        />
+      ))
+
+      return filtered
     }
   }
 
@@ -38,7 +50,7 @@ const Reminders: React.FC = ({}) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col">
       <h1>Your Reminders</h1>
       <form>
         <Dropdown
@@ -57,7 +69,7 @@ const Reminders: React.FC = ({}) => {
           event={handleChange}
         />
       </form>
-      {filterdReminders(filterData)}
+      {filterReminders(filterData)}
     </div>
   )
 }
