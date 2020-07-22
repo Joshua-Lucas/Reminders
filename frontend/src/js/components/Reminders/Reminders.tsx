@@ -3,10 +3,23 @@ import ReminderContainer from './RemindersContiner'
 import { remindersApi } from '../../utils/api/ReimdersApi'
 import { GetReminders, IReminder } from '../../utils/interfaces'
 import Dropdown from '../../utils/formComponents/Dropdown'
+import CreateReminder from './CreateReminder'
+import useDropdown from '../../utils/formComponents/useDropdown'
 
 const Reminders: React.FC = ({}) => {
+  // Hooks
   const [state, setState] = useState<GetReminders>([])
-  const [filterData, setFilterData] = useState('All')
+  const [filter, FilterDropdown] = useDropdown('Filter by Day', 'All', [
+    'All',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ])
+
   useEffect(() => {
     const loadReminders = async () => {
       const result = await remindersApi.get()
@@ -16,6 +29,7 @@ const Reminders: React.FC = ({}) => {
     loadReminders()
   }, [])
 
+  // Methods
   const filterReminders = (filter: string) => {
     if (filter === 'All' && state.length > 0) {
       const all = state.map((reminders) => (
@@ -44,32 +58,17 @@ const Reminders: React.FC = ({}) => {
     }
   }
 
-  const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-    e.preventDefault()
-    setFilterData(e.target.value)
-  }
-
   return (
     <div className="flex flex-col">
       <h1>Your Reminders</h1>
       <form>
-        <Dropdown
-          name="filter"
-          options={[
-            'All',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ]}
-          value={filterData}
-          event={handleChange}
-        />
+        <FilterDropdown labelstyle="bg-red-500" style="" />
       </form>
-      {filterReminders(filterData)}
+      {filterReminders(filter)}
+
+      <div>
+        <CreateReminder />
+      </div>
     </div>
   )
 }
