@@ -1,7 +1,7 @@
 import HttpStatus from 'http-status-codes'
 import { GetReminders, ICreateReminder, INewReminder } from '../interfaces'
 // utils
-const url = 'http://localhost:8080/api/reminders'
+const url = 'http://localhost:3000/api/reminders'
 
 // METHODS
 
