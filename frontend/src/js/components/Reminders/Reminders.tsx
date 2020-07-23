@@ -31,30 +31,34 @@ const Reminders: React.FC = ({}) => {
 
   // Methods
   const filterReminders = (filter: string) => {
-    if (filter === 'All' && state.length > 0) {
-      const all = state.map((reminders) => (
-        <ReminderContainer
-          key={reminders.id}
-          title={reminders.title}
-          details={reminders.details}
-          frequency={reminders.frequencey}
-        />
-      ))
-      return all
+    if (state == null) {
+      return <p>No Reminders</p>
     } else {
-      var filteredByDay = state.filter(
-        (reminder) => reminder.daytobe === filter
-      )
-      var filtered = filteredByDay.map((reminders) => (
-        <ReminderContainer
-          key={reminders.id}
-          title={reminders.title}
-          details={reminders.details}
-          frequency={reminders.frequencey}
-        />
-      ))
+      if (filter == 'All' && state.length > 0) {
+        const all = state.map((reminders) => (
+          <ReminderContainer
+            key={reminders.id}
+            title={reminders.title}
+            details={reminders.details}
+            frequency={reminders.frequencey}
+          />
+        ))
+        return all
+      } else {
+        var filteredByDay = state.filter(
+          (reminder) => reminder.daytobe == filter
+        )
+        var filtered = filteredByDay.map((reminders) => (
+          <ReminderContainer
+            key={reminders.id}
+            title={reminders.title}
+            details={reminders.details}
+            frequency={reminders.frequencey}
+          />
+        ))
 
-      return filtered
+        return filtered
+      }
     }
   }
 
@@ -66,7 +70,7 @@ const Reminders: React.FC = ({}) => {
       </form>
       {filterReminders(filter)}
 
-      <div>
+      <div className=" flex flex-col items-center">
         <CreateReminder />
       </div>
     </div>
