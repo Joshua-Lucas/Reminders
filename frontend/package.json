@@ -22,7 +22,7 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8080 react-scripts start",
     "build:css": "postcss src/css/tailwind.css -o src/css/index.css",
     "watch:css": "postcss src/css/tailwind.css -o src/css/index.css -w",
     "build": "npm run build:css && react-scripts build",

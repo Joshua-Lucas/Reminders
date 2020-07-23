@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon",
+    "start": "nodemon",
     "migrate:create": "db-migrate create --migrations-dir=./Database/migrations --config=./Database/database.json",
     "migrate:up": "db-migrate up --migrations-dir=./Database/migrations --config=./Database/database.json",
     "migrate:down": "db-migrate down --migrations-dir=./Database/migrations --config=./Database/database.json",
