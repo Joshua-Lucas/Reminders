@@ -2,7 +2,7 @@ import React, { useState, SetStateAction } from 'react'
 
 const useInput = (label: string, defaultSate: any, type: string) => {
   const [state, setState] = useState(defaultSate)
-  const id = `use-dropdown-${label.replace(' ', '').toLowerCase()}`
+  const id = `use-input-${label.replace(' ', '').toLowerCase()}`
 
   // these props are to have flexability to style
   type InputProps = {
@@ -21,7 +21,6 @@ const useInput = (label: string, defaultSate: any, type: string) => {
         placeholder={`Enter ${label}`}
         value={state}
         onChange={(e) => setState(e.target.value)}
-        onBlur={(e) => setState(e.target.value)}
       />
     </label>
   )
