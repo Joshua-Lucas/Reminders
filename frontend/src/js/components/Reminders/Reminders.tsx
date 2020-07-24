@@ -38,6 +38,7 @@ const Reminders: React.FC = ({}) => {
         const all = state.map((reminders) => (
           <ReminderContainer
             key={reminders.id}
+            id={reminders.id}
             title={reminders.title}
             details={reminders.details}
             frequency={reminders.frequencey}
@@ -51,6 +52,7 @@ const Reminders: React.FC = ({}) => {
         var filtered = filteredByDay.map((reminders) => (
           <ReminderContainer
             key={reminders.id}
+            id={reminders.id}
             title={reminders.title}
             details={reminders.details}
             frequency={reminders.frequencey}
