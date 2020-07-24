@@ -27,7 +27,18 @@ export const postReminder = async (
   return result
 }
 
+export const deleteReminder = async (id: number): Promise<void> => {
+  let message
+  const result = await fetch(url, {
+    method: 'DELETE',
+  })
+    .then((res) => (message = res.status))
+    .catch(console.error)
+  return message
+}
+
 export const remindersApi = {
   get: getReimders,
   post: postReminder,
+  destroy: deleteReminder,
 }
