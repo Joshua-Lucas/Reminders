@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { Input } from '@jludev/component-lib-typescript'
 
 interface IRemindersContinerProps {
   id: number
@@ -14,6 +15,7 @@ const RemindersContiner: React.FC<IRemindersContinerProps> = ({
   details,
   frequency,
 }) => {
+  const [state, setState] = useState('')
   return (
     <div>
       <h1>{title}</h1>
