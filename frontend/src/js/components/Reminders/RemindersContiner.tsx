@@ -1,6 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
 
 interface IRemindersContinerProps {
+  id: number
   key: number
   title: string
   details: string
