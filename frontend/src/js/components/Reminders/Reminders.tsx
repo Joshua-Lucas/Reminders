@@ -9,6 +9,7 @@ import useDropdown from '../../utils/formComponents/useDropdown'
 const Reminders: React.FC = ({}) => {
   // Hooks
   const [state, setState] = useState<GetReminders>([])
+  const [submitted, setSubmit] = useState(false)
   const [filter, FilterDropdown] = useDropdown('Filter by Day', 'All', [
     'All',
     'Monday',
@@ -27,7 +28,7 @@ const Reminders: React.FC = ({}) => {
       setState(result)
     }
     loadReminders()
-  }, [])
+  }, [submitted])
 
   // Methods
   const filterReminders = (filter: string) => {
@@ -73,7 +74,7 @@ const Reminders: React.FC = ({}) => {
       {filterReminders(filter)}
 
       <div className=" flex flex-col items-center">
-        <CreateReminder />
+        <CreateReminder toogleSubmit={setSubmit} />
       </div>
     </div>
   )
