@@ -2,12 +2,14 @@ import React, { useState, useReducer } from 'react'
 import styled from 'styled-components'
 import {
   FormDiv,
+  Textarea as DeatilsTextArea,
   Buttons,
   Input,
   Dropdown,
   UtilityStyles,
 } from '@jludev/component-lib-typescript'
-import { ICreateReminder } from '../../utils/interfaces'
+import { ICreateReminder, INewReminder } from '../../utils/interfaces'
+import { remindersApi } from '../../utils/api/ReimdersApi'
 
 // Styled Components
 const ModelWraper = styled.div`
@@ -70,23 +72,65 @@ const DeatilsTestArea = styled.textarea`
   }
 `
 
+// INTERFACE
+interface IFORMNEW {
+  toogleSubmit: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 // COMPONENT
-const CreateReminder: React.FC = () => {
+const CreateReminder: React.FC<IFORMNEW> = ({ toogleSubmit }) => {
   // HOOKS
 
+  // THESE ARE ACTION TYPE IN VARABLES THAT WAY IF SOMETHING IS MISS SPEELED IT IS EASIER TO IDENTIFY THE ERROR
+  const ADD_TITLE = 'ADD_TITLE'
+  const ADD_DAY = 'ADD_DAY'
+  const ADD_DETAILS = 'ADD_DETAILS'
+  const ADD_FREQUENCEY = 'ADD_FREQUENCEY'
+
+  const initalState: ICreateReminder = {
+    title: '',
+    details: '',
+    daytobe: '',
+    frequencey: 1,
+    user_id: 1,
+  }
+
+  const newReminderReducer = (state: any, action: any) => {
+    switch (action.type) {
+      case ADD_TITLE:
+        return Object.assign({}, state, action.payload)
+      case ADD_DAY:
+        return Object.assign({}, state, action.payload)
+      case ADD_FREQUENCEY:
+        return Object.assign({}, state, action.payload)
+      case ADD_DETAILS:
+        return Object.assign({}, state, action.payload)
+      default:
+        return state
+    }
+  }
+
+  const [newReminder, dispatch] = useReducer(newReminderReducer, initalState)
+
   // ---METHODS---
-  // const handleSubmit = (e) => e.prevent()
-  // // post api logic here to post input and dropdown
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const result = await remindersApi.post(newReminder)
+    toogleSubmit(true)
+    console.log(result)
+  }
 
   return (
     <ModelWraper>
       <CreateReminderHeader>Create A New Reminder</CreateReminderHeader>
-      <CreateReminderForm>
+      <CreateReminderForm onSubmit={handleSubmit}>
         <Input
           label="Name"
           type="text"
-          value=""
-          event={(e) => e.target.value}
+          value={newReminder.title}
+          event={(e) =>
+            dispatch({ type: ADD_TITLE, payload: { title: e.target.value } })
+          }
         />
         <Dropdown
           label="day to be reminded"
@@ -99,17 +143,33 @@ const CreateReminder: React.FC = () => {
             'Saturday',
             'Sunday',
           ]}
-          event={(e) => e.target.value}
+          event={(e) =>
+            dispatch({
+              type: ADD_DAY,
+              payload: { daytobe: e.target.value },
+            })
+          }
         />
         <Dropdown
           label="how often?"
           options={['Every Week', 'Every Two Weeks', 'Every Month']}
-          event={(e) => e.target.value}
+          event={(e) =>
+            dispatch({
+              type: ADD_FREQUENCEY,
+              payload: { frequencey: e.target.value },
+            })
+          }
         />
-        <Label>
-          Text Area
-          <DeatilsTestArea />
-        </Label>
+        <DeatilsTextArea
+          label="details"
+          event={(e) =>
+            dispatch({
+              type: ADD_DETAILS,
+              payload: { details: e.target.value },
+            })
+          }
+          required={true}
+        />
         <AddButton type="submit">Add</AddButton>
       </CreateReminderForm>
     </ModelWraper>
