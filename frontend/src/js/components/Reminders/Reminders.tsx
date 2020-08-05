@@ -1,15 +1,15 @@
 import React, { useState, useEffect, FormEventHandler } from 'react'
+import Modal from '../../Modal'
 import ReminderContainer from './RemindersContiner'
 import { remindersApi } from '../../utils/api/ReimdersApi'
-import { GetReminders, IReminder } from '../../utils/interfaces'
-import Dropdown from '../../utils/formComponents/Dropdown'
+import { GetReminders, ICreateReminder } from '../../utils/interfaces'
 import CreateReminder from './CreateReminder'
 import useDropdown from '../../utils/formComponents/useDropdown'
 
 const Reminders: React.FC = ({}) => {
   // Hooks
   const [state, setState] = useState<GetReminders>([])
-  const [submitted, setSubmit] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [filter, FilterDropdown] = useDropdown('Filter by Day', 'All', [
     'All',
     'Monday',
@@ -20,7 +20,6 @@ const Reminders: React.FC = ({}) => {
     'Saturday',
     'Sunday',
   ])
-
   useEffect(() => {
     const loadReminders = async () => {
       const result = await remindersApi.get()
@@ -28,7 +27,7 @@ const Reminders: React.FC = ({}) => {
       setState(result)
     }
     loadReminders()
-  }, [submitted])
+  }, [])
 
   // Methods
   const filterReminders = (filter: string) => {
@@ -72,10 +71,19 @@ const Reminders: React.FC = ({}) => {
         <FilterDropdown labelstyle="bg-red-500" style="" />
       </form>
       {filterReminders(filter)}
-
-      <div className=" flex flex-col items-center">
-        <CreateReminder toogleSubmit={setSubmit} />
-      </div>
+      <button onClick={() => setShowModal(!showModal)}>
+        Click me to show Modal
+      </button>
+      {showModal ? (
+        <Modal>
+          <div className=" flex flex-col items-center">
+            <CreateReminder toggleModal={setShowModal} />
+            <button onClick={() => setShowModal(!showModal)}>
+              Close Model
+            </button>
+          </div>
+        </Modal>
+      ) : null}
     </div>
   )
 }
