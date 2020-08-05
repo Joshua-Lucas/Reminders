@@ -3,11 +3,12 @@ import styled from 'styled-components'
 import {
   FormDiv,
   Textarea as DeatilsTextArea,
-  Buttons,
+  BaseButton,
   Input,
   Dropdown,
   UtilityStyles,
 } from '@jludev/component-lib-typescript'
+import useFormReducer from '../../utils/CustomHooks/useFormReducer'
 import { ICreateReminder, INewReminder } from '../../utils/interfaces'
 import { remindersApi } from '../../utils/api/ReimdersApi'
 
@@ -15,6 +16,8 @@ import { remindersApi } from '../../utils/api/ReimdersApi'
 const ModelWraper = styled.div`
   width: 700px;
   height: 650px;
+  margin: 0 auto;
+  background-color: ${(props) => props.theme.lightNeutralColor};
   box-shadow: ${UtilityStyles.boxShadow.xl};
   color: ${(props) => props.theme.primaryTextColor};
   display: flex;
@@ -33,7 +36,7 @@ const CreateReminderForm = styled.form`
   display: flex;
   flex-direction: column;
 `
-const AddButton = styled(Buttons)`
+const AddButton = styled(BaseButton)`
   align-self: center;
   border-radius: ${UtilityStyles.borderRadius.md};
 `
@@ -72,21 +75,14 @@ const DeatilsTestArea = styled.textarea`
   }
 `
 
-// INTERFACE
-interface IFORMNEW {
-  toogleSubmit: React.Dispatch<React.SetStateAction<boolean>>
+// INTERFACES
+interface ICreateReminderContiner {
+  toggleModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 // COMPONENT
-const CreateReminder: React.FC<IFORMNEW> = ({ toogleSubmit }) => {
+const CreateReminder: React.FC<ICreateReminderContiner> = ({ toggleModal }) => {
   // HOOKS
-
-  // THESE ARE ACTION TYPE IN VARABLES THAT WAY IF SOMETHING IS MISS SPEELED IT IS EASIER TO IDENTIFY THE ERROR
-  const ADD_TITLE = 'ADD_TITLE'
-  const ADD_DAY = 'ADD_DAY'
-  const ADD_DETAILS = 'ADD_DETAILS'
-  const ADD_FREQUENCEY = 'ADD_FREQUENCEY'
-
   const initalState: ICreateReminder = {
     title: '',
     details: '',
@@ -95,29 +91,21 @@ const CreateReminder: React.FC<IFORMNEW> = ({ toogleSubmit }) => {
     user_id: 1,
   }
 
-  const newReminderReducer = (state: any, action: any) => {
-    switch (action.type) {
-      case ADD_TITLE:
-        return Object.assign({}, state, action.payload)
-      case ADD_DAY:
-        return Object.assign({}, state, action.payload)
-      case ADD_FREQUENCEY:
-        return Object.assign({}, state, action.payload)
-      case ADD_DETAILS:
-        return Object.assign({}, state, action.payload)
-      default:
-        return state
-    }
-  }
-
-  const [newReminder, dispatch] = useReducer(newReminderReducer, initalState)
+  const [formData, setFormData] = useFormReducer(initalState)
 
   // ---METHODS---
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement
+    >
+  ) => {
+    setFormData({ [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const result = await remindersApi.post(newReminder)
-    toogleSubmit(true)
-    console.log(result)
+    remindersApi.post(formData)
+    toggleModal(false)
   }
 
   return (
@@ -125,15 +113,15 @@ const CreateReminder: React.FC<IFORMNEW> = ({ toogleSubmit }) => {
       <CreateReminderHeader>Create A New Reminder</CreateReminderHeader>
       <CreateReminderForm onSubmit={handleSubmit}>
         <Input
-          label="Name"
+          label="Title"
+          name="title"
           type="text"
-          value={newReminder.title}
-          event={(e) =>
-            dispatch({ type: ADD_TITLE, payload: { title: e.target.value } })
-          }
+          value={formData.title}
+          event={handleChange}
         />
         <Dropdown
           label="day to be reminded"
+          name="daytobe"
           options={[
             'Monday',
             'Tuesday',
@@ -143,31 +131,18 @@ const CreateReminder: React.FC<IFORMNEW> = ({ toogleSubmit }) => {
             'Saturday',
             'Sunday',
           ]}
-          event={(e) =>
-            dispatch({
-              type: ADD_DAY,
-              payload: { daytobe: e.target.value },
-            })
-          }
+          event={handleChange}
         />
         <Dropdown
           label="how often?"
+          name="frequencey"
           options={['Every Week', 'Every Two Weeks', 'Every Month']}
-          event={(e) =>
-            dispatch({
-              type: ADD_FREQUENCEY,
-              payload: { frequencey: e.target.value },
-            })
-          }
+          event={handleChange}
         />
         <DeatilsTextArea
-          label="details"
-          event={(e) =>
-            dispatch({
-              type: ADD_DETAILS,
-              payload: { details: e.target.value },
-            })
-          }
+          label="Details"
+          name="details"
+          event={handleChange}
           required={true}
         />
         <AddButton type="submit">Add</AddButton>
