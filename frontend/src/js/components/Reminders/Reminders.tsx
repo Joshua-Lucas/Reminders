@@ -1,10 +1,21 @@
 import React, { useState, useEffect, FormEventHandler } from 'react'
 import Modal from '../../Modal'
+import styled from 'styled-components'
 import ReminderContainer from './RemindersContiner'
 import { remindersApi } from '../../utils/api/ReimdersApi'
 import { GetReminders, ICreateReminder } from '../../utils/interfaces'
 import CreateReminder from './CreateReminder'
 import useDropdown from '../../utils/formComponents/useDropdown'
+
+// STYLED COMPONENTS
+const RemindersWrapper = styled.div`
+  grid-column: 2/3;
+  grid-row: 2/3;
+  border-left: 2px solid ${(props) => props.theme.lightNeutralColor};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
 const Reminders: React.FC = ({}) => {
   // Hooks
@@ -65,7 +76,7 @@ const Reminders: React.FC = ({}) => {
   }
 
   return (
-    <div className="flex flex-col">
+    <RemindersWrapper>
       <h1>Your Reminders</h1>
       <form>
         <FilterDropdown labelstyle="bg-red-500" style="" />
@@ -84,7 +95,7 @@ const Reminders: React.FC = ({}) => {
           </div>
         </Modal>
       ) : null}
-    </div>
+    </RemindersWrapper>
   )
 }
 export default Reminders
