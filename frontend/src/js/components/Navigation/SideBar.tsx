@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { UtilityStyles } from '@jludev/component-lib-typescript'
-import { HTTP_VERSION_NOT_SUPPORTED } from 'http-status-codes'
 import FilterCategories from './FilterCategories'
 
 //Styled Components
