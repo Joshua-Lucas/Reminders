@@ -6,6 +6,7 @@ import Theme from './utils/Theme'
 import Reminders from './components/Reminders/Reminders'
 import SideBar from './components/Navigation/SideBar'
 import MainNav from './components/Navigation/MainNav'
+import { ReminderContextProvider } from './context/RemindersContext'
 
 const AppWrapper = styled.div`
   height: 100vh;
@@ -17,19 +18,21 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <ThemeProvider theme={Theme}>
-      <Router>
-        <Switch>
-          <Route path="/">
-            <AppWrapper>
-              <MainNav />
-              <SideBar
-                setFilter={['Sunday', 'Monday', 'Tuesday', 'Wednesday']}
-              />
-              <Reminders />
-            </AppWrapper>
-          </Route>
-        </Switch>
-      </Router>
+      <ReminderContextProvider>
+        <Router>
+          <Switch>
+            <Route path="/">
+              <AppWrapper>
+                <MainNav />
+                <SideBar
+                  setFilter={['Sunday', 'Monday', 'Tuesday', 'Wednesday']}
+                />
+                <Reminders />
+              </AppWrapper>
+            </Route>
+          </Switch>
+        </Router>
+      </ReminderContextProvider>
     </ThemeProvider>
   )
 }
