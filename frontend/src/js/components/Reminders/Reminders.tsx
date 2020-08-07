@@ -1,10 +1,11 @@
-import React, { useState, useEffect, FormEventHandler } from 'react'
+import React, { useState, useContext } from 'react'
 import Modal from '../../Modal'
 import styled from 'styled-components'
 import ReminderContainer from './RemindersContiner'
-import { remindersApi } from '../../utils/api/ReimdersApi'
-import { GetReminders, ICreateReminder } from '../../utils/interfaces'
+import ReminderContext from '../../context/RemindersContext'
+import { IRemindersContext } from '../../context/RemindersContext'
 import CreateReminder from './CreateReminder'
+import { GetReminders, IReminder } from '../../utils/interfaces'
 import useDropdown from '../../utils/formComponents/useDropdown'
 
 // STYLED COMPONENTS
@@ -19,7 +20,7 @@ const RemindersWrapper = styled.div`
 
 const Reminders: React.FC = ({}) => {
   // Hooks
-  const [state, setState] = useState<GetReminders>([])
+  const { fetchedReminders } = useContext(ReminderContext)
   const [showModal, setShowModal] = useState(false)
   const [filter, FilterDropdown] = useDropdown('Filter by Day', 'All', [
     'All',
@@ -31,22 +32,14 @@ const Reminders: React.FC = ({}) => {
     'Saturday',
     'Sunday',
   ])
-  useEffect(() => {
-    const loadReminders = async () => {
-      const result = await remindersApi.get()
-      console.log(result)
-      setState(result)
-    }
-    loadReminders()
-  }, [])
 
   // Methods
   const filterReminders = (filter: string) => {
-    if (state == null) {
+    if (fetchedReminders == null) {
       return <p>No Reminders</p>
     } else {
-      if (filter == 'All' && state.length > 0) {
-        const all = state.map((reminders) => (
+      if (filter == 'All' && fetchedReminders.length > 0) {
+        const all = fetchedReminders.map((reminders: any) => (
           <ReminderContainer
             key={reminders.id}
             id={reminders.id}
@@ -57,10 +50,10 @@ const Reminders: React.FC = ({}) => {
         ))
         return all
       } else {
-        var filteredByDay = state.filter(
-          (reminder) => reminder.daytobe == filter
+        var filteredByDay = fetchedReminders.filter(
+          (reminder: any) => reminder.daytobe == filter
         )
-        var filtered = filteredByDay.map((reminders) => (
+        var filtered = filteredByDay.map((reminders: any) => (
           <ReminderContainer
             key={reminders.id}
             id={reminders.id}
