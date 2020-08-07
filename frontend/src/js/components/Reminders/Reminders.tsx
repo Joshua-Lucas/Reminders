@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react'
 import Modal from '../../Modal'
 import styled from 'styled-components'
+import { Dropdown } from '@jludev/component-lib-typescript'
 import ReminderContainer from './RemindersContiner'
 import ReminderContext from '../../context/RemindersContext'
-import { IRemindersContext } from '../../context/RemindersContext'
 import CreateReminder from './CreateReminder'
-import { GetReminders, IReminder } from '../../utils/interfaces'
 import useDropdown from '../../utils/formComponents/useDropdown'
 
 // STYLED COMPONENTS
@@ -22,16 +21,7 @@ const Reminders: React.FC = ({}) => {
   // Hooks
   const { fetchedReminders } = useContext(ReminderContext)
   const [showModal, setShowModal] = useState(false)
-  const [filter, FilterDropdown] = useDropdown('Filter by Day', 'All', [
-    'All',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ])
+  const [filterState, setFilterState] = useState('All')
 
   // Methods
   const filterReminders = (filter: string) => {
@@ -72,9 +62,23 @@ const Reminders: React.FC = ({}) => {
     <RemindersWrapper>
       <h1>Your Reminders</h1>
       <form>
-        <FilterDropdown labelstyle="bg-red-500" style="" />
+        <Dropdown
+          label="Filter by Day"
+          name="filter"
+          options={[
+            'All',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+          ]}
+          event={(e) => setFilterState(e.target.value)}
+        />
       </form>
-      {filterReminders(filter)}
+      {filterReminders(filterState)}
       <button onClick={() => setShowModal(!showModal)}>
         Click me to show Modal
       </button>
