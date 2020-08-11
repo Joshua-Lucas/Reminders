@@ -1,4 +1,15 @@
 // REMINDER INTERFACES
+export const filterOptions = [
+  'All',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+]
+
 export interface IReminder {
   id: number
   title: string
