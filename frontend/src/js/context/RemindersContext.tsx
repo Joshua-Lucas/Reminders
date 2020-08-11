@@ -15,6 +15,7 @@ const ReminderContext = createContext<IRemindersContext | any>(undefined)
 
 export const ReminderContextProvider: React.FC = ({ children }) => {
   const [fetchedReminders, setFetchedReminders] = useState<GetReminders>()
+  const [filter, setFilter] = useState('All')
 
   useEffect(() => {
     const loadReminders = async () => {
@@ -26,7 +27,9 @@ export const ReminderContextProvider: React.FC = ({ children }) => {
   }, [])
 
   return (
-    <ReminderContext.Provider value={{ fetchedReminders, setFetchedReminders }}>
+    <ReminderContext.Provider
+      value={{ fetchedReminders, setFetchedReminders, filter, setFilter }}
+    >
       {children}
     </ReminderContext.Provider>
   )
