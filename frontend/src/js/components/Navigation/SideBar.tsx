@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { UtilityStyles } from '@jludev/component-lib-typescript'
+import ReminderContext from '../../context/RemindersContext'
 import FilterCategories from './FilterCategories'
 
 //Styled Components
@@ -21,15 +22,22 @@ const FilterContaier = styled.div`
   flex-direction: column;
 `
 
-//Interfaces
+//INTERFACES
 interface ISideBarProps {
-  setFilter: string[]
+  setCategories: string[]
 }
 
-//React Component
-const SideBar: React.FC<ISideBarProps> = ({ setFilter }) => {
-  const AllCatagories = setFilter.map((categorey) => (
-    <FilterCategories key={categorey} filterCategory={categorey} />
+//REACT COMPONENT
+const SideBar: React.FC<ISideBarProps> = ({ setCategories }) => {
+  const { setFilter } = useContext(ReminderContext)
+
+  const AllCatagories = setCategories.map((categorey) => (
+    <FilterCategories
+      key={categorey}
+      id={categorey}
+      filterCategory={categorey}
+      event={() => setFilter(categorey)}
+    />
   ))
 
   return (
