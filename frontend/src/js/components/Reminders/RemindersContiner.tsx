@@ -18,7 +18,7 @@ const RemindersContiner: React.FC<IRemindersContinerProps> = ({
   const [state, setState] = useState('')
   return (
     <div>
-      <h1>{title}</h1>
+      <h4>{title}</h4>
       <p>{details}</p>
     </div>
   )
